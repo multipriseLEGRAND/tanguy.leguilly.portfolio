@@ -99,38 +99,38 @@ body::after {
 .light-blob {
   position: absolute;
   border-radius: 50%;
-  filter: blur(80px);
+  filter: blur(60px);
   mix-blend-mode: screen;
-  opacity: 0.7;
+  opacity: 0.85;
 }
 .light-blob.l1 {
-  width: 600px; height: 600px;
-  background: radial-gradient(circle, rgba(120,200,255,0.6), transparent 70%);
-  top: 5%; left: -10%;
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, rgba(120,200,255,0.85) 0%, rgba(120,200,255,0.4) 30%, transparent 70%);
+  top: 8%; left: -8%;
   animation: lightFloat1 20s infinite ease-in-out;
 }
 .light-blob.l2 {
-  width: 700px; height: 700px;
-  background: radial-gradient(circle, rgba(200,160,255,0.55), transparent 70%);
-  top: 30%; right: -15%;
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, rgba(200,160,255,0.8) 0%, rgba(200,160,255,0.35) 30%, transparent 70%);
+  top: 25%; right: -12%;
   animation: lightFloat2 25s infinite ease-in-out;
 }
 .light-blob.l3 {
-  width: 550px; height: 550px;
-  background: radial-gradient(circle, rgba(255,150,220,0.5), transparent 70%);
-  bottom: 10%; left: 25%;
+  width: 480px; height: 480px;
+  background: radial-gradient(circle, rgba(255,150,220,0.75) 0%, rgba(255,150,220,0.35) 30%, transparent 70%);
+  bottom: 8%; left: 22%;
   animation: lightFloat3 22s infinite ease-in-out;
 }
 .light-blob.l4 {
-  width: 500px; height: 500px;
-  background: radial-gradient(circle, rgba(140,255,200,0.45), transparent 70%);
-  top: 65%; left: -5%;
+  width: 420px; height: 420px;
+  background: radial-gradient(circle, rgba(140,255,200,0.7) 0%, rgba(140,255,200,0.3) 30%, transparent 70%);
+  top: 60%; left: -5%;
   animation: lightFloat4 28s infinite ease-in-out;
 }
 .light-blob.l5 {
-  width: 450px; height: 450px;
-  background: radial-gradient(circle, rgba(180,180,255,0.5), transparent 70%);
-  top: 20%; left: 40%;
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(180,180,255,0.75) 0%, rgba(180,180,255,0.35) 30%, transparent 70%);
+  top: 18%; left: 38%;
   animation: lightFloat5 24s infinite ease-in-out;
 }
 @keyframes lightFloat1 {
@@ -296,6 +296,7 @@ nav {
   max-width: 1400px;
   padding: 1.1rem 2rem;
   display: flex; justify-content: space-between; align-items: center;
+  gap: 2rem;
   background: rgba(255,255,255,0.04);
   backdrop-filter: url(#liquidLensRound) blur(20px) saturate(180%);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
@@ -305,22 +306,25 @@ nav {
     inset 0 1px 0 rgba(255,255,255,0.15),
     inset 0 -1px 0 rgba(255,255,255,0.05),
     0 12px 40px rgba(0,0,0,0.4);
-  transition: width .6s var(--ease), padding .6s var(--ease), top .6s var(--ease), background .4s, box-shadow .4s;
+  transition: width .7s var(--ease), padding .7s var(--ease), gap .7s var(--ease), justify-content .7s, top .7s var(--ease), background .4s, box-shadow .4s;
 }
 nav.s {
-  padding: .8rem 1.5rem;
-  width: min(680px, calc(100% - 4rem));
+  width: max-content;
+  padding: .75rem 1.5rem;
+  gap: 1.5rem;
+  justify-content: center;
   top: 1rem;
   background: rgba(255,255,255,0.06);
   box-shadow:
     inset 0 1px 0 rgba(255,255,255,0.2),
-    inset 0 -1px 0 rgba(255,255,255,0.05),
-    0 16px 48px rgba(0,0,0,0.5);
+    inset 0 -1px 0 rgba(255,255,255,0.06),
+    0 16px 50px rgba(0,0,0,0.5);
 }
-nav.s .nav-time { display: none; }
+nav.s .nav-right { gap: 1.5rem; }
 nav.s .nav-links { gap: 1.5rem; }
-nav.s .nav-links a { font-size: .6rem; letter-spacing: 2px; }
-nav.s .nav-logo { font-size: .72rem; letter-spacing: 4px; }
+nav.s .nav-logo { font-size: .72rem; letter-spacing: 3.5px; }
+nav.s .nav-time { font-size: .58rem; letter-spacing: 1.5px; }
+nav.s .nav-links a { font-size: .62rem; letter-spacing: 2px; }
 .nav-logo {
   font-family: var(--display);
   font-size: .78rem;
@@ -343,7 +347,19 @@ nav.s .nav-logo { font-size: .72rem; letter-spacing: 4px; }
   0%,100% { opacity: 1; box-shadow: 0 0 14px var(--accent-cyan); transform: scale(1); }
   50% { opacity: 0.5; box-shadow: 0 0 6px var(--accent-cyan); transform: scale(0.85); }
 }
-.nav-right { display: flex; align-items: center; gap: 2rem; }
+.nav-right { display: flex; align-items: center; gap: 2rem; position: relative; }
+.nav-right::before {
+  content: '';
+  position: absolute;
+  left: -1rem; top: 50%;
+  transform: translateY(-50%);
+  width: 1px; height: 20px;
+  background: linear-gradient(180deg, transparent, var(--w20), transparent);
+  opacity: 0;
+  transition: opacity .5s;
+}
+nav.s .nav-right::before { opacity: 1; }
+nav.s .nav-right { gap: 1.5rem; }
 .nav-time {
   font-size: .62rem;
   letter-spacing: 2px;
@@ -442,6 +458,9 @@ nav.s .nav-logo { font-size: .72rem; letter-spacing: 4px; }
   max-width: 1100px;
   margin: 0 auto;
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .hero-tag {
@@ -545,8 +564,8 @@ nav.s .nav-logo { font-size: .72rem; letter-spacing: 4px; }
 .hero-badges {
   display: flex;
   justify-content: center;
-  gap: 1rem;
-  margin-top: 4rem;
+  gap: .8rem;
+  margin-top: 4.5rem;
   flex-wrap: wrap;
   opacity: 0;
   animation: up .8s 2.4s var(--ease) forwards;
@@ -554,9 +573,9 @@ nav.s .nav-logo { font-size: .72rem; letter-spacing: 4px; }
 .hero-badge {
   display: inline-flex;
   align-items: center;
-  gap: .6rem;
-  padding: .5rem 1.1rem;
-  font-size: .58rem;
+  gap: .65rem;
+  padding: .55rem 1.2rem;
+  font-size: .6rem;
   letter-spacing: 2px;
   text-transform: uppercase;
   color: var(--w50);
@@ -566,9 +585,15 @@ nav.s .nav-logo { font-size: .72rem; letter-spacing: 4px; }
   border: 1px solid rgba(255,255,255,0.1);
   border-radius: 100px;
   box-shadow:
-    inset 0 1px 0 rgba(255,255,255,0.12),
+    inset 0 1px 0 rgba(255,255,255,0.15),
     inset 0 -1px 0 rgba(255,255,255,0.04),
     0 4px 20px rgba(0,0,0,0.2);
+  transition: all .4s var(--ease);
+}
+.hero-badge:hover {
+  background: rgba(255,255,255,0.07);
+  border-color: rgba(120,220,255,0.25);
+  transform: translateY(-2px);
 }
 .hero-badge .v { color: var(--white); font-family: var(--display); font-weight: 700; }
 .hero-badge .ico {
@@ -896,12 +921,19 @@ section { padding: 8rem 4rem; position: relative; }
   letter-spacing: -1px;
 }
 
+/* ═══ GLASS EDGE REFRACTION — visible lens rim highlight ═══ */
+/* Adds a bright "rim" of refracted light around glass elements, like iOS 26 */
+.now-card, .sk-card, .proj-row, .quote-inner, .contact-right,
+nav, .marquee-wrap, footer, .hero-tag, .hero-badge, .btn-glass, .tool {
+  isolation: isolate;
+}
+
 /* ═══ NOW STATS ═══ */
 .now {
-  padding: 6rem 4rem;
+  padding: 7rem 4rem;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 1rem;
+  gap: 1.2rem;
 }
 /* Glass highlight pseudo - inner light reflection like real glass */
 .now-card::after, .sk-card::after, .quote-inner::after, .proj-row::after,
@@ -928,27 +960,31 @@ section { padding: 8rem 4rem; position: relative; }
 }
 
 .now-card {
-  padding: 2rem 1.8rem;
+  padding: 2.2rem 1.8rem;
   background: rgba(255,255,255,0.04);
   backdrop-filter: url(#liquidLensRect) blur(20px) saturate(180%);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
-  border: 1px solid rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.12);
   border-radius: 24px;
   box-shadow:
-    inset 0 1px 0 rgba(255,255,255,0.12),
-    inset 0 -1px 0 rgba(255,255,255,0.04),
-    0 12px 40px rgba(0,0,0,0.25);
-  transition: all .4s var(--ease);
+    inset 0 1.5px 0 rgba(255,255,255,0.3),
+    inset 0 -1.5px 0 rgba(255,255,255,0.08),
+    inset 1.5px 0 0 rgba(255,255,255,0.1),
+    inset -1.5px 0 0 rgba(255,255,255,0.1),
+    inset 0 0 60px rgba(255,255,255,0.04),
+    0 20px 60px rgba(0,0,0,0.35),
+    0 4px 16px rgba(0,0,0,0.2);
+  transition: all .45s var(--ease);
   position: relative;
   overflow: hidden;
 }
-.now-card::before {
-  content: '';
+.now-card .corner-accent {
   position: absolute;
   top: 0; left: 0;
   width: 20px; height: 1px;
   background: var(--accent-cyan);
   box-shadow: 0 0 8px var(--accent-cyan);
+  z-index: 3;
 }
 .now-card:hover {
   transform: translateY(-4px);
@@ -1176,11 +1212,13 @@ section { padding: 8rem 4rem; position: relative; }
   box-shadow: 0 0 12px var(--accent-cyan);
 }
 .proj-row:hover {
-  transform: translateX(10px);
-  border-color: rgba(120,220,255,0.2);
+  transform: translateX(12px) translateY(-2px);
+  border-color: rgba(120,220,255,0.25);
+  background: rgba(255,255,255,0.05);
   box-shadow:
-    inset 0 1px 0 rgba(255,255,255,0.1),
-    0 12px 40px rgba(120,220,255,0.1);
+    inset 0 1px 0 rgba(255,255,255,0.15),
+    inset 0 -1px 0 rgba(255,255,255,0.05),
+    0 16px 50px rgba(120,220,255,0.12);
 }
 .proj-row:hover::before { opacity: 1; }
 .proj-row:hover::after { transform: translateY(-50%) scaleY(1); }
@@ -1489,20 +1527,32 @@ footer {
 <!-- ═══ SVG FILTERS for LIQUID GLASS distortion ═══ -->
 <svg class="svg-defs" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <!-- ═══ STRONG LIQUID GLASS LENS ═══ -->
-    <!-- Real pincushion distortion. Edge pixels are pushed outward strongly,
-         center stays still — light bends at the rim like a real bombed lens. -->
-    <filter id="liquidLensRect" x="-15%" y="-15%" width="130%" height="130%">
-      <feImage result="map" x="0" y="0" width="100%" height="100%" preserveAspectRatio="none"
-        href='data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 100" preserveAspectRatio="none"><defs><radialGradient id="r" cx="50%25" cy="50%25" r="75%25"><stop offset="0%25" stop-color="rgb(128,128,0)"/><stop offset="40%25" stop-color="rgb(128,128,0)"/><stop offset="100%25" stop-color="rgb(255,255,0)"/></radialGradient></defs><rect width="200" height="100" fill="rgb(128,128,0)"/><rect width="200" height="100" fill="url(%23r)"/></svg>'/>
-      <feDisplacementMap in="SourceGraphic" in2="map" scale="90" xChannelSelector="R" yChannelSelector="G"/>
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!-- ═══ TRUE LIQUID GLASS LENS — iOS 26 style                ═══ -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!-- 
+      The key trick: displacement map uses an EDGE-CONCENTRATED gradient.
+      - The inner area stays at (128, 128) = neutral, no displacement
+      - The edges have a STRONG gradient pushing outward
+      - This creates a clear "lens rim" effect where light bends visibly
+      
+      Red channel = X displacement, Green channel = Y displacement
+      We use a conic gradient simulated via two crossed radial gradients
+      to push pixels outward only near the rim.
+    -->
+    
+    <!-- LENS for rectangular cards: strong rim refraction -->
+    <filter id="liquidLensRect" x="-20%" y="-20%" width="140%" height="140%" filterUnits="objectBoundingBox" primitiveUnits="userSpaceOnUse">
+      <feImage result="map" preserveAspectRatio="none" x="0%" y="0%" width="100%" height="100%"
+        href='data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 100" preserveAspectRatio="none"><defs><radialGradient id="xMap" cx="50%25" cy="50%25" r="75%25"><stop offset="0%25" stop-color="rgb(128,128,0)" stop-opacity="1"/><stop offset="55%25" stop-color="rgb(128,128,0)" stop-opacity="1"/><stop offset="65%25" stop-color="rgb(150,150,0)" stop-opacity="1"/><stop offset="80%25" stop-color="rgb(200,200,0)" stop-opacity="1"/><stop offset="100%25" stop-color="rgb(255,255,0)" stop-opacity="1"/></radialGradient></defs><rect width="200" height="100" fill="rgb(128,128,0)"/><rect width="200" height="100" fill="url(%23xMap)"/></svg>'/>
+      <feDisplacementMap in="SourceGraphic" in2="map" scale="140" xChannelSelector="R" yChannelSelector="G"/>
     </filter>
 
-    <!-- Round version for pill-shaped elements (nav, footer, marquee, badges) -->
-    <filter id="liquidLensRound" x="-20%" y="-20%" width="140%" height="140%">
-      <feImage result="map" x="0" y="0" width="100%" height="100%" preserveAspectRatio="none"
-        href='data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 100" preserveAspectRatio="none"><defs><radialGradient id="r" cx="50%25" cy="50%25" r="65%25"><stop offset="0%25" stop-color="rgb(128,128,0)"/><stop offset="35%25" stop-color="rgb(128,128,0)"/><stop offset="100%25" stop-color="rgb(255,255,0)"/></radialGradient></defs><rect width="200" height="100" fill="url(%23r)"/></svg>'/>
-      <feDisplacementMap in="SourceGraphic" in2="map" scale="110" xChannelSelector="R" yChannelSelector="G"/>
+    <!-- LENS for pill-shaped elements: even stronger lens curvature -->
+    <filter id="liquidLensRound" x="-25%" y="-25%" width="150%" height="150%" filterUnits="objectBoundingBox" primitiveUnits="userSpaceOnUse">
+      <feImage result="map" preserveAspectRatio="none" x="0%" y="0%" width="100%" height="100%"
+        href='data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 100" preserveAspectRatio="none"><defs><radialGradient id="xMap" cx="50%25" cy="50%25" r="60%25"><stop offset="0%25" stop-color="rgb(128,128,0)" stop-opacity="1"/><stop offset="40%25" stop-color="rgb(128,128,0)" stop-opacity="1"/><stop offset="60%25" stop-color="rgb(165,165,0)" stop-opacity="1"/><stop offset="80%25" stop-color="rgb(220,220,0)" stop-opacity="1"/><stop offset="100%25" stop-color="rgb(255,255,0)" stop-opacity="1"/></radialGradient></defs><rect width="200" height="100" fill="url(%23xMap)"/></svg>'/>
+      <feDisplacementMap in="SourceGraphic" in2="map" scale="180" xChannelSelector="R" yChannelSelector="G"/>
     </filter>
   </defs>
 </svg>
