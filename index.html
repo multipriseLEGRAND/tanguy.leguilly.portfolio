@@ -292,39 +292,32 @@ nav { z-index: 100; }
 nav {
   position: fixed; top: 1.2rem; left: 50%;
   transform: translateX(-50%);
-  width: calc(100% - 4rem);
+  /* Smoothly interpolated based on scroll progress (--np: 0 → 1) */
+  width: calc(100% - 4rem - var(--np, 0) * (100% - 4rem - 720px));
   max-width: 1400px;
-  padding: 1.1rem 2rem;
+  padding:
+    calc(1.1rem - var(--np, 0) * 0.35rem)
+    calc(2rem - var(--np, 0) * 0.5rem);
   display: flex; justify-content: space-between; align-items: center;
-  gap: 2rem;
-  background: rgba(255,255,255,0.04);
+  gap: calc(2rem - var(--np, 0) * 0.5rem);
+  background: rgba(255,255,255, calc(0.04 + var(--np, 0) * 0.02));
   backdrop-filter: url(#liquidLensRound) blur(20px) saturate(180%);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
-  border: 1px solid rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255, calc(0.1 + var(--np, 0) * 0.04));
   border-radius: 100px;
   box-shadow:
-    inset 0 1px 0 rgba(255,255,255,0.15),
-    inset 0 -1px 0 rgba(255,255,255,0.05),
-    0 12px 40px rgba(0,0,0,0.4);
-  transition: width .7s var(--ease), padding .7s var(--ease), gap .7s var(--ease), justify-content .7s, top .7s var(--ease), background .4s, box-shadow .4s;
+    inset 0 1.5px 0 rgba(255,255,255, calc(0.15 + var(--np, 0) * 0.1)),
+    inset 0 -1.5px 0 rgba(255,255,255, calc(0.05 + var(--np, 0) * 0.02)),
+    inset 0 0 30px rgba(255,255,255, calc(var(--np, 0) * 0.04)),
+    0 calc(12px + var(--np, 0) * 4px) calc(40px + var(--np, 0) * 12px) rgba(0,0,0, calc(0.4 + var(--np, 0) * 0.1));
+  top: calc(1.2rem - var(--np, 0) * 0.2rem);
+  /* No transition needed - everything is driven by --np which JS updates smoothly */
+  will-change: width, padding, gap;
 }
-nav.s {
-  width: max-content;
-  padding: .75rem 1.5rem;
-  gap: 1.5rem;
-  justify-content: center;
-  top: 1rem;
-  background: rgba(255,255,255,0.06);
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,0.2),
-    inset 0 -1px 0 rgba(255,255,255,0.06),
-    0 16px 50px rgba(0,0,0,0.5);
-}
-nav.s .nav-right { gap: 1.5rem; }
-nav.s .nav-links { gap: 1.5rem; }
-nav.s .nav-logo { font-size: .72rem; letter-spacing: 3.5px; }
-nav.s .nav-time { font-size: .58rem; letter-spacing: 1.5px; }
-nav.s .nav-links a { font-size: .62rem; letter-spacing: 2px; }
+.nav-logo { font-size: calc(0.8rem - var(--np, 0) * 0.08rem); letter-spacing: calc(5px - var(--np, 0) * 1.5px); }
+.nav-time { font-size: calc(0.65rem - var(--np, 0) * 0.07rem); letter-spacing: calc(2px - var(--np, 0) * 0.5px); }
+.nav-links a { font-size: calc(0.68rem - var(--np, 0) * 0.06rem); letter-spacing: calc(2.5px - var(--np, 0) * 0.5px); }
+.nav-links { gap: calc(2.5rem - var(--np, 0) * 1rem); }
 .nav-logo {
   font-family: var(--display);
   font-size: .78rem;
@@ -1528,31 +1521,53 @@ footer {
 <svg class="svg-defs" xmlns="http://www.w3.org/2000/svg">
   <defs>
     <!-- ═══════════════════════════════════════════════════════════ -->
-    <!-- ═══ TRUE LIQUID GLASS LENS — iOS 26 style                ═══ -->
+    <!-- ═══ LIQUID GLASS LENS — iOS 26 style with chromatic     ═══ -->
     <!-- ═══════════════════════════════════════════════════════════ -->
     <!-- 
-      The key trick: displacement map uses an EDGE-CONCENTRATED gradient.
-      - The inner area stays at (128, 128) = neutral, no displacement
-      - The edges have a STRONG gradient pushing outward
-      - This creates a clear "lens rim" effect where light bends visibly
-      
-      Red channel = X displacement, Green channel = Y displacement
-      We use a conic gradient simulated via two crossed radial gradients
-      to push pixels outward only near the rim.
+      The trick to a REAL lens effect:
+      1. Displacement map with edge-concentrated gradient (pushes pixels at the rim)
+      2. Chromatic aberration: R/G/B channels displace by slightly different amounts
+         like real glass that refracts colors differently
+      3. Strong scale at the rim, none at center
     -->
     
-    <!-- LENS for rectangular cards: strong rim refraction -->
+    <!-- LENS for rectangular cards — with chromatic aberration -->
     <filter id="liquidLensRect" x="-20%" y="-20%" width="140%" height="140%" filterUnits="objectBoundingBox" primitiveUnits="userSpaceOnUse">
-      <feImage result="map" preserveAspectRatio="none" x="0%" y="0%" width="100%" height="100%"
-        href='data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 100" preserveAspectRatio="none"><defs><radialGradient id="xMap" cx="50%25" cy="50%25" r="75%25"><stop offset="0%25" stop-color="rgb(128,128,0)" stop-opacity="1"/><stop offset="55%25" stop-color="rgb(128,128,0)" stop-opacity="1"/><stop offset="65%25" stop-color="rgb(150,150,0)" stop-opacity="1"/><stop offset="80%25" stop-color="rgb(200,200,0)" stop-opacity="1"/><stop offset="100%25" stop-color="rgb(255,255,0)" stop-opacity="1"/></radialGradient></defs><rect width="200" height="100" fill="rgb(128,128,0)"/><rect width="200" height="100" fill="url(%23xMap)"/></svg>'/>
-      <feDisplacementMap in="SourceGraphic" in2="map" scale="140" xChannelSelector="R" yChannelSelector="G"/>
+      <!-- Displacement map: radial gradient that pushes only at the rim -->
+      <feImage result="dispMap" preserveAspectRatio="none" x="0%" y="0%" width="100%" height="100%"
+        href='data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 100" preserveAspectRatio="none"><defs><radialGradient id="m" cx="50%25" cy="50%25" r="80%25"><stop offset="0%25" stop-color="rgb(128,128,0)"/><stop offset="50%25" stop-color="rgb(128,128,0)"/><stop offset="65%25" stop-color="rgb(155,155,0)"/><stop offset="80%25" stop-color="rgb(200,200,0)"/><stop offset="100%25" stop-color="rgb(255,255,0)"/></radialGradient></defs><rect width="200" height="100" fill="rgb(128,128,0)"/><rect width="200" height="100" fill="url(%23m)"/></svg>'/>
+
+      <!-- RED channel displaced strongly -->
+      <feDisplacementMap in="SourceGraphic" in2="dispMap" scale="155" xChannelSelector="R" yChannelSelector="G" result="dispR"/>
+      <feColorMatrix in="dispR" type="matrix" values="1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0" result="redOnly"/>
+
+      <!-- GREEN channel displaced medium -->
+      <feDisplacementMap in="SourceGraphic" in2="dispMap" scale="140" xChannelSelector="R" yChannelSelector="G" result="dispG"/>
+      <feColorMatrix in="dispG" type="matrix" values="0 0 0 0 0  0 1 0 0 0  0 0 0 0 0  0 0 0 1 0" result="greenOnly"/>
+
+      <!-- BLUE channel displaced less (creates chromatic separation at rim) -->
+      <feDisplacementMap in="SourceGraphic" in2="dispMap" scale="125" xChannelSelector="R" yChannelSelector="G" result="dispB"/>
+      <feColorMatrix in="dispB" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 1 0 0  0 0 0 1 0" result="blueOnly"/>
+
+      <!-- Recombine the channels with screen blending -->
+      <feBlend in="redOnly" in2="greenOnly" mode="screen" result="rg"/>
+      <feBlend in="rg" in2="blueOnly" mode="screen"/>
     </filter>
 
-    <!-- LENS for pill-shaped elements: even stronger lens curvature -->
+    <!-- LENS for pill-shaped elements — stronger curvature -->
     <filter id="liquidLensRound" x="-25%" y="-25%" width="150%" height="150%" filterUnits="objectBoundingBox" primitiveUnits="userSpaceOnUse">
-      <feImage result="map" preserveAspectRatio="none" x="0%" y="0%" width="100%" height="100%"
-        href='data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 100" preserveAspectRatio="none"><defs><radialGradient id="xMap" cx="50%25" cy="50%25" r="60%25"><stop offset="0%25" stop-color="rgb(128,128,0)" stop-opacity="1"/><stop offset="40%25" stop-color="rgb(128,128,0)" stop-opacity="1"/><stop offset="60%25" stop-color="rgb(165,165,0)" stop-opacity="1"/><stop offset="80%25" stop-color="rgb(220,220,0)" stop-opacity="1"/><stop offset="100%25" stop-color="rgb(255,255,0)" stop-opacity="1"/></radialGradient></defs><rect width="200" height="100" fill="url(%23xMap)"/></svg>'/>
-      <feDisplacementMap in="SourceGraphic" in2="map" scale="180" xChannelSelector="R" yChannelSelector="G"/>
+      <feImage result="dispMap" preserveAspectRatio="none" x="0%" y="0%" width="100%" height="100%"
+        href='data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 100" preserveAspectRatio="none"><defs><radialGradient id="m" cx="50%25" cy="50%25" r="65%25"><stop offset="0%25" stop-color="rgb(128,128,0)"/><stop offset="35%25" stop-color="rgb(128,128,0)"/><stop offset="55%25" stop-color="rgb(160,160,0)"/><stop offset="78%25" stop-color="rgb(215,215,0)"/><stop offset="100%25" stop-color="rgb(255,255,0)"/></radialGradient></defs><rect width="200" height="100" fill="url(%23m)"/></svg>'/>
+
+      <feDisplacementMap in="SourceGraphic" in2="dispMap" scale="200" xChannelSelector="R" yChannelSelector="G" result="dispR"/>
+      <feColorMatrix in="dispR" type="matrix" values="1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0" result="redOnly"/>
+      <feDisplacementMap in="SourceGraphic" in2="dispMap" scale="180" xChannelSelector="R" yChannelSelector="G" result="dispG"/>
+      <feColorMatrix in="dispG" type="matrix" values="0 0 0 0 0  0 1 0 0 0  0 0 0 0 0  0 0 0 1 0" result="greenOnly"/>
+      <feDisplacementMap in="SourceGraphic" in2="dispMap" scale="160" xChannelSelector="R" yChannelSelector="G" result="dispB"/>
+      <feColorMatrix in="dispB" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 1 0 0  0 0 0 1 0" result="blueOnly"/>
+
+      <feBlend in="redOnly" in2="greenOnly" mode="screen" result="rg"/>
+      <feBlend in="rg" in2="blueOnly" mode="screen"/>
     </filter>
   </defs>
 </svg>
@@ -2187,6 +2202,9 @@ const scrollProgress = document.getElementById('scrollProgress');
 const scrollIndicator = document.getElementById('scrollIndicator');
 window.addEventListener('scroll', () => {
   nav.classList.toggle('s', scrollY > 50);
+  // Smooth nav progress based on scroll position (0 to 1 between 0 and 250px scroll)
+  const navProgress = Math.min(1, Math.max(0, scrollY / 250));
+  nav.style.setProperty('--np', navProgress.toFixed(3));
   const docH = document.body.scrollHeight - window.innerHeight;
   scrollProgress.style.width = ((scrollY / docH) * 100) + '%';
   scrollIndicator.classList.toggle('visible', scrollY > 200);
