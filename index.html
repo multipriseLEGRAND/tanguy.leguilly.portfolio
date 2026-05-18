@@ -919,6 +919,54 @@ nav, .marquee-wrap, footer, .hero-tag, .hero-badge, .btn-glass, .tool {
   isolation: isolate;
 }
 
+/* ═══════════════════════════════════════════════════════ */
+/* ═══ LIQUID GLASS ENHANCEMENT — Depth, shine, highlights ═══ */
+/* ═══════════════════════════════════════════════════════ */
+
+/* Specular highlight on glass elements — like real light on curved glass */
+.now-card, .sk-card, .proj-row, .quote-inner, .contact-right, .tool {
+  position: relative;
+  isolation: isolate;
+}
+
+/* Bright top highlight + bottom subtle reflection */
+.now-card > *, .sk-card > *, .proj-row > *, .quote-inner > *, .contact-right > *, .tool > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* The specular highlight (top-left bright sheen like real glass) */
+.glass-shine {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse 100% 60% at 30% 0%, rgba(255,255,255,0.12) 0%, transparent 50%),
+    radial-gradient(ellipse 70% 50% at 80% 100%, rgba(255,255,255,0.04) 0%, transparent 50%);
+}
+
+.glass-shine::before {
+  content: '';
+  position: absolute;
+  top: -50%; left: -50%;
+  width: 200%; height: 200%;
+  background: linear-gradient(115deg,
+    transparent 30%,
+    rgba(255,255,255,0.08) 45%,
+    rgba(255,255,255,0.15) 50%,
+    rgba(255,255,255,0.08) 55%,
+    transparent 70%);
+  transform: translateX(-100%);
+  animation: glassShine 8s infinite ease-in-out;
+}
+@keyframes glassShine {
+  0%, 100% { transform: translateX(-100%); }
+  50% { transform: translateX(100%); }
+}
+
 /* ═══ NOW STATS ═══ */
 .now {
   padding: 7rem 4rem;
@@ -953,19 +1001,20 @@ nav, .marquee-wrap, footer, .hero-tag, .hero-badge, .btn-glass, .tool {
 .now-card {
   padding: 2.2rem 1.8rem;
   background: rgba(255,255,255,0.04);
-  backdrop-filter: url(#liquidLensRect) blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
-  border: 1px solid rgba(255,255,255,0.12);
+  backdrop-filter: url(#liquidLensRect) blur(24px) saturate(200%);
+  -webkit-backdrop-filter: blur(24px) saturate(200%);
+  border: 1px solid rgba(255,255,255,0.14);
   border-radius: 24px;
   box-shadow:
-    inset 0 1.5px 0 rgba(255,255,255,0.3),
-    inset 0 -1.5px 0 rgba(255,255,255,0.08),
-    inset 1.5px 0 0 rgba(255,255,255,0.1),
-    inset -1.5px 0 0 rgba(255,255,255,0.1),
-    inset 0 0 60px rgba(255,255,255,0.04),
-    0 20px 60px rgba(0,0,0,0.35),
-    0 4px 16px rgba(0,0,0,0.2);
-  transition: all .45s var(--ease);
+    inset 0 2px 1px rgba(255,255,255,0.35),
+    inset 0 -2px 1px rgba(255,255,255,0.08),
+    inset 2px 0 1px rgba(255,255,255,0.1),
+    inset -2px 0 1px rgba(255,255,255,0.1),
+    inset 0 0 60px rgba(255,255,255,0.03),
+    0 30px 80px -10px rgba(0,0,0,0.4),
+    0 8px 24px -4px rgba(0,0,0,0.3),
+    0 0 40px -10px rgba(180,200,255,0.08);
+  transition: all .5s var(--ease);
   position: relative;
   overflow: hidden;
 }
@@ -978,11 +1027,17 @@ nav, .marquee-wrap, footer, .hero-tag, .hero-badge, .btn-glass, .tool {
   z-index: 3;
 }
 .now-card:hover {
-  transform: translateY(-4px);
-  border-color: rgba(120,220,255,0.2);
+  transform: translateY(-6px);
+  border-color: rgba(120,220,255,0.3);
+  background: rgba(255,255,255,0.06);
   box-shadow:
-    inset 0 1px 0 rgba(255,255,255,0.12),
-    0 16px 48px rgba(120,220,255,0.1);
+    inset 0 2px 1px rgba(255,255,255,0.4),
+    inset 0 -2px 1px rgba(255,255,255,0.1),
+    inset 2px 0 1px rgba(255,255,255,0.12),
+    inset -2px 0 1px rgba(255,255,255,0.12),
+    inset 0 0 80px rgba(120,220,255,0.06),
+    0 40px 100px -15px rgba(120,220,255,0.18),
+    0 12px 30px -5px rgba(0,0,0,0.3);
 }
 .now-label {
   font-size: .56rem;
@@ -1041,17 +1096,21 @@ nav, .marquee-wrap, footer, .hero-tag, .hero-badge, .btn-glass, .tool {
   letter-spacing: .5px;
   color: var(--w70);
   background: rgba(255,255,255,0.04);
-  backdrop-filter: url(#liquidLensRect) blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
-  border: 1px solid rgba(255,255,255,0.1);
+  backdrop-filter: url(#liquidLensRect) blur(20px) saturate(200%);
+  -webkit-backdrop-filter: blur(20px) saturate(200%);
+  border: 1px solid rgba(255,255,255,0.12);
   border-radius: 14px;
   box-shadow:
-    inset 0 1px 0 rgba(255,255,255,0.12),
-    inset 0 -1px 0 rgba(255,255,255,0.04),
-    0 4px 16px rgba(0,0,0,0.2);
-  transition: all .35s var(--ease);
+    inset 0 1.5px 1px rgba(255,255,255,0.28),
+    inset 0 -1.5px 1px rgba(255,255,255,0.06),
+    inset 1.5px 0 1px rgba(255,255,255,0.08),
+    inset -1.5px 0 1px rgba(255,255,255,0.08),
+    0 6px 16px -2px rgba(0,0,0,0.2);
+  transition: all .4s var(--ease);
   cursor: none;
   display: flex; align-items: center; gap: .65rem;
+  position: relative;
+  overflow: hidden;
 }
 .tool::before {
   content: '';
@@ -1060,15 +1119,19 @@ nav, .marquee-wrap, footer, .hero-tag, .hero-badge, .btn-glass, .tool {
   border-radius: 50%;
   flex-shrink: 0;
   transition: all .3s;
+  z-index: 2;
 }
 .tool:hover {
   color: var(--white);
-  border-color: rgba(120,220,255,0.3);
-  transform: translateY(-2px);
-  background: rgba(120,220,255,0.05);
+  border-color: rgba(120,220,255,0.4);
+  transform: translateY(-3px);
+  background: rgba(120,220,255,0.06);
   box-shadow:
-    inset 0 1px 0 rgba(255,255,255,0.1),
-    0 8px 20px rgba(120,220,255,0.1);
+    inset 0 1.5px 1px rgba(255,255,255,0.4),
+    inset 0 -1.5px 1px rgba(255,255,255,0.08),
+    inset 0 0 30px rgba(120,220,255,0.1),
+    0 12px 30px -4px rgba(120,220,255,0.2),
+    0 4px 10px -2px rgba(0,0,0,0.3);
 }
 .tool:hover::before {
   background: var(--accent-cyan);
@@ -1087,14 +1150,18 @@ nav, .marquee-wrap, footer, .hero-tag, .hero-badge, .btn-glass, .tool {
   text-align: center;
   padding: 4rem 3rem;
   background: rgba(255,255,255,0.04);
-  backdrop-filter: url(#liquidLensRect) blur(30px) saturate(180%);
-  -webkit-backdrop-filter: blur(30px) saturate(180%);
-  border: 1px solid rgba(255,255,255,0.1);
+  backdrop-filter: url(#liquidLensRect) blur(28px) saturate(200%);
+  -webkit-backdrop-filter: blur(28px) saturate(200%);
+  border: 1px solid rgba(255,255,255,0.14);
   border-radius: 28px;
   box-shadow:
-    inset 0 1px 0 rgba(255,255,255,0.15),
-    inset 0 -1px 0 rgba(255,255,255,0.04),
-    0 20px 60px rgba(0,0,0,0.3);
+    inset 0 2px 1px rgba(255,255,255,0.35),
+    inset 0 -2px 1px rgba(255,255,255,0.08),
+    inset 2px 0 1px rgba(255,255,255,0.1),
+    inset -2px 0 1px rgba(255,255,255,0.1),
+    inset 0 0 80px rgba(255,255,255,0.04),
+    0 40px 100px -15px rgba(0,0,0,0.4),
+    0 12px 30px -5px rgba(0,0,0,0.3);
   position: relative;
   overflow: hidden;
 }
@@ -1168,19 +1235,23 @@ nav, .marquee-wrap, footer, .hero-tag, .hero-badge, .btn-glass, .tool {
   gap: 2.5rem;
   padding: 2rem 2rem;
   background: rgba(255,255,255,0.035);
-  backdrop-filter: url(#liquidLensRect) blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
-  border: 1px solid rgba(255,255,255,0.09);
+  backdrop-filter: url(#liquidLensRect) blur(24px) saturate(200%);
+  -webkit-backdrop-filter: blur(24px) saturate(200%);
+  border: 1px solid rgba(255,255,255,0.12);
   border-radius: 22px;
   box-shadow:
-    inset 0 1px 0 rgba(255,255,255,0.12),
-    inset 0 -1px 0 rgba(255,255,255,0.04),
-    0 8px 24px rgba(0,0,0,0.2);
+    inset 0 2px 1px rgba(255,255,255,0.28),
+    inset 0 -2px 1px rgba(255,255,255,0.06),
+    inset 2px 0 1px rgba(255,255,255,0.08),
+    inset -2px 0 1px rgba(255,255,255,0.08),
+    inset 0 0 50px rgba(255,255,255,0.025),
+    0 20px 50px -10px rgba(0,0,0,0.3),
+    0 6px 16px -4px rgba(0,0,0,0.2);
   text-decoration: none;
   color: inherit;
   position: relative;
   overflow: hidden;
-  transition: all .45s var(--ease);
+  transition: all .5s var(--ease);
   cursor: none;
 }
 .proj-row::before {
@@ -1203,13 +1274,15 @@ nav, .marquee-wrap, footer, .hero-tag, .hero-badge, .btn-glass, .tool {
   box-shadow: 0 0 12px var(--accent-cyan);
 }
 .proj-row:hover {
-  transform: translateX(12px) translateY(-2px);
-  border-color: rgba(120,220,255,0.25);
-  background: rgba(255,255,255,0.05);
+  transform: translateX(12px) translateY(-3px);
+  border-color: rgba(120,220,255,0.3);
+  background: rgba(255,255,255,0.06);
   box-shadow:
-    inset 0 1px 0 rgba(255,255,255,0.15),
-    inset 0 -1px 0 rgba(255,255,255,0.05),
-    0 16px 50px rgba(120,220,255,0.12);
+    inset 0 2px 1px rgba(255,255,255,0.38),
+    inset 0 -2px 1px rgba(255,255,255,0.08),
+    inset 0 0 80px rgba(120,220,255,0.06),
+    0 30px 80px -12px rgba(120,220,255,0.15),
+    0 10px 24px -4px rgba(0,0,0,0.3);
 }
 .proj-row:hover::before { opacity: 1; }
 .proj-row:hover::after { transform: translateY(-50%) scaleY(1); }
@@ -1277,22 +1350,32 @@ nav, .marquee-wrap, footer, .hero-tag, .hero-badge, .btn-glass, .tool {
 .sk-card {
   padding: 2rem 1.8rem;
   background: rgba(255,255,255,0.04);
-  backdrop-filter: url(#liquidLensRect) blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
-  border: 1px solid rgba(255,255,255,0.1);
+  backdrop-filter: url(#liquidLensRect) blur(24px) saturate(200%);
+  -webkit-backdrop-filter: blur(24px) saturate(200%);
+  border: 1px solid rgba(255,255,255,0.14);
   border-radius: 22px;
   box-shadow:
-    inset 0 1px 0 rgba(255,255,255,0.12),
-    inset 0 -1px 0 rgba(255,255,255,0.04),
-    0 8px 24px rgba(0,0,0,0.2);
-  transition: all .4s var(--ease);
+    inset 0 2px 1px rgba(255,255,255,0.3),
+    inset 0 -2px 1px rgba(255,255,255,0.08),
+    inset 2px 0 1px rgba(255,255,255,0.1),
+    inset -2px 0 1px rgba(255,255,255,0.1),
+    inset 0 0 50px rgba(255,255,255,0.03),
+    0 24px 60px -10px rgba(0,0,0,0.35),
+    0 6px 20px -4px rgba(0,0,0,0.25);
+  transition: all .5s var(--ease);
+  position: relative;
+  overflow: hidden;
 }
 .sk-card:hover {
-  transform: translateY(-3px);
-  border-color: rgba(120,220,255,0.15);
+  transform: translateY(-4px);
+  border-color: rgba(120,220,255,0.25);
+  background: rgba(255,255,255,0.06);
   box-shadow:
-    inset 0 1px 0 rgba(255,255,255,0.1),
-    0 12px 40px rgba(120,220,255,0.08);
+    inset 0 2px 1px rgba(255,255,255,0.4),
+    inset 0 -2px 1px rgba(255,255,255,0.1),
+    inset 0 0 80px rgba(120,220,255,0.05),
+    0 32px 80px -12px rgba(120,220,255,0.15),
+    0 10px 24px -4px rgba(0,0,0,0.3);
 }
 .sk-group-label {
   font-family: var(--display);
@@ -1385,14 +1468,19 @@ nav, .marquee-wrap, footer, .hero-tag, .hero-badge, .btn-glass, .tool {
   position: relative; z-index: 1;
   padding: 2.5rem;
   background: rgba(255,255,255,0.04);
-  backdrop-filter: url(#liquidLensRect) blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
-  border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 24px;
+  backdrop-filter: url(#liquidLensRect) blur(24px) saturate(200%);
+  -webkit-backdrop-filter: blur(24px) saturate(200%);
+  border: 1px solid rgba(255,255,255,0.14);
+  border-radius: 26px;
   box-shadow:
-    inset 0 1px 0 rgba(255,255,255,0.12),
-    inset 0 -1px 0 rgba(255,255,255,0.04),
-    0 12px 40px rgba(0,0,0,0.25);
+    inset 0 2px 1px rgba(255,255,255,0.32),
+    inset 0 -2px 1px rgba(255,255,255,0.08),
+    inset 2px 0 1px rgba(255,255,255,0.1),
+    inset -2px 0 1px rgba(255,255,255,0.1),
+    inset 0 0 60px rgba(255,255,255,0.03),
+    0 24px 70px -10px rgba(0,0,0,0.35),
+    0 8px 20px -4px rgba(0,0,0,0.25);
+  overflow: hidden;
 }
 .contact-sub {
   font-size: .92rem;
@@ -1709,21 +1797,25 @@ footer {
 <!-- NOW STATS -->
 <section class="now">
   <div class="now-card r">
+    <div class="glass-shine"></div>
     <div class="now-label">Formation</div>
     <div class="now-value">BUT <span class="italic">RT</span></div>
     <div class="now-sub">2ème année · Cybersécurité</div>
   </div>
   <div class="now-card r" style="transition-delay:.1s">
+    <div class="glass-shine"></div>
     <div class="now-label">Projets</div>
     <div class="now-value"><span data-count="4">0</span>+</div>
     <div class="now-sub">Réalisés en cours</div>
   </div>
   <div class="now-card r" style="transition-delay:.2s">
+    <div class="glass-shine"></div>
     <div class="now-label">Compétences</div>
     <div class="now-value"><span data-count="20">0</span>+</div>
     <div class="now-sub">Outils & techniques</div>
   </div>
   <div class="now-card r" style="transition-delay:.3s">
+    <div class="glass-shine"></div>
     <div class="now-label">Disponibilité</div>
     <div class="now-value"><span class="italic">2025</span></div>
     <div class="now-sub">Stage · Alternance</div>
@@ -1758,6 +1850,7 @@ footer {
 <!-- QUOTE -->
 <section class="quote">
   <div class="quote-inner r">
+    <div class="glass-shine"></div>
     <div class="quote-mark">"</div>
     <p class="quote-text">
       Pour protéger un système, il faut d'abord <span class="accent">le comprendre</span>
@@ -1779,6 +1872,7 @@ footer {
   </div>
   <div class="proj-list">
     <a href="#" class="proj-row r">
+      <div class="glass-shine"></div>
       <span class="proj-n">01</span>
       <div>
         <div class="proj-name">Audit de sécurité réseau</div>
@@ -1790,6 +1884,7 @@ footer {
       <svg class="proj-arr" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 19L19 5M19 5H8M19 5v11"/></svg>
     </a>
     <a href="#" class="proj-row r" style="transition-delay:.08s">
+      <div class="glass-shine"></div>
       <span class="proj-n">02</span>
       <div>
         <div class="proj-name">Configuration pare-feu & VLAN</div>
@@ -1801,6 +1896,7 @@ footer {
       <svg class="proj-arr" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 19L19 5M19 5H8M19 5v11"/></svg>
     </a>
     <a href="#" class="proj-row r" style="transition-delay:.16s">
+      <div class="glass-shine"></div>
       <span class="proj-n">03</span>
       <div>
         <div class="proj-name">CTF — Sécurité offensive</div>
@@ -1812,6 +1908,7 @@ footer {
       <svg class="proj-arr" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 19L19 5M19 5H8M19 5v11"/></svg>
     </a>
     <a href="#" class="proj-row r" style="transition-delay:.24s">
+      <div class="glass-shine"></div>
       <span class="proj-n">04</span>
       <div>
         <div class="proj-name">Script d'automatisation réseau</div>
@@ -1835,6 +1932,7 @@ footer {
     </div>
     <div class="skills-grid">
       <div class="sk-card r" style="transition-delay:.1s">
+        <div class="glass-shine"></div>
         <div class="sk-group-label">Réseaux</div>
         <ul class="sk-list">
           <li>Cisco IOS — Routage & Switching</li>
@@ -1845,6 +1943,7 @@ footer {
         </ul>
       </div>
       <div class="sk-card r" style="transition-delay:.18s">
+        <div class="glass-shine"></div>
         <div class="sk-group-label">Cybersécurité</div>
         <ul class="sk-list">
           <li>Analyse réseau — Wireshark</li>
@@ -1855,6 +1954,7 @@ footer {
         </ul>
       </div>
       <div class="sk-card r" style="transition-delay:.26s">
+        <div class="glass-shine"></div>
         <div class="sk-group-label">Dev & Outils</div>
         <ul class="sk-list">
           <li>Python — Scripts réseau</li>
@@ -1865,6 +1965,7 @@ footer {
         </ul>
       </div>
       <div class="sk-card r" style="transition-delay:.34s">
+        <div class="glass-shine"></div>
         <div class="sk-group-label">Systèmes</div>
         <ul class="sk-list">
           <li>Linux — Debian, Kali, Ubuntu</li>
@@ -1885,6 +1986,7 @@ footer {
     <h2 class="contact-title">Tra<span class="dim">vai</span><br>llons<br><span class="italic">ensemble</span></h2>
   </div>
   <div class="contact-right r" style="transition-delay:.15s">
+    <div class="glass-shine"></div>
     <p class="contact-sub">Disponible pour un stage ou une <em>alternance</em> à partir de 2025. N'hésite pas à me contacter — je réponds rapidement.</p>
     <div class="contact-links">
       <a href="mailto:tanguy.leguilly@email.com" class="contact-link" data-magnetic>
@@ -2198,11 +2300,21 @@ const nav = document.getElementById('nav');
 const navTime = document.getElementById('navTime');
 const scrollProgress = document.getElementById('scrollProgress');
 const scrollIndicator = document.getElementById('scrollIndicator');
+// Smooth nav progress driven by requestAnimationFrame for ultra-fluid animation
+let currentNp = 0;
+function updateNavProgress() {
+  // Target: 0 at scrollY=0, 1 at scrollY=300
+  const targetNp = Math.min(1, Math.max(0, scrollY / 300));
+  // Smooth interpolation toward target
+  currentNp += (targetNp - currentNp) * 0.15;
+  // Snap if very close to avoid infinite tiny updates
+  if (Math.abs(targetNp - currentNp) < 0.001) currentNp = targetNp;
+  nav.style.setProperty('--np', currentNp.toFixed(4));
+  requestAnimationFrame(updateNavProgress);
+}
+requestAnimationFrame(updateNavProgress);
+
 window.addEventListener('scroll', () => {
-  nav.classList.toggle('s', scrollY > 50);
-  // Smooth nav progress based on scroll position (0 to 1 between 0 and 250px scroll)
-  const navProgress = Math.min(1, Math.max(0, scrollY / 250));
-  nav.style.setProperty('--np', navProgress.toFixed(3));
   const docH = document.body.scrollHeight - window.innerHeight;
   scrollProgress.style.width = ((scrollY / docH) * 100) + '%';
   scrollIndicator.classList.toggle('visible', scrollY > 200);
