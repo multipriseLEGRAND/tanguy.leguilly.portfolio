@@ -290,28 +290,28 @@ nav { z-index: 100; }
 
 /* ═══ NAV ═══ */
 nav {
-  position: fixed; top: 1.2rem; left: 50%;
+  --np: 0;
+  position: fixed;
+  top: calc(1.2rem - var(--np) * 0.2rem);
+  left: 50%;
   transform: translateX(-50%);
-  /* Smoothly interpolated based on scroll progress (--np: 0 → 1) */
-  width: calc(100% - 4rem - var(--np, 0) * (100% - 4rem - 720px));
-  max-width: 1400px;
+  /* Use min() for proper interpolation between full width and 720px */
+  width: min(calc(100% - 4rem), calc(1400px + (720px - 1400px) * var(--np)));
   padding:
-    calc(1.1rem - var(--np, 0) * 0.35rem)
-    calc(2rem - var(--np, 0) * 0.5rem);
+    calc(1.1rem - var(--np) * 0.35rem)
+    calc(2rem - var(--np) * 0.5rem);
   display: flex; justify-content: space-between; align-items: center;
-  gap: calc(2rem - var(--np, 0) * 0.5rem);
-  background: rgba(255,255,255, calc(0.04 + var(--np, 0) * 0.02));
+  gap: calc(2rem - var(--np) * 0.5rem);
+  background: rgba(255,255,255, calc(0.04 + var(--np) * 0.02));
   backdrop-filter: url(#liquidLensRound) blur(20px) saturate(180%);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
-  border: 1px solid rgba(255,255,255, calc(0.1 + var(--np, 0) * 0.04));
+  border: 1px solid rgba(255,255,255, calc(0.1 + var(--np) * 0.04));
   border-radius: 100px;
   box-shadow:
-    inset 0 1.5px 0 rgba(255,255,255, calc(0.15 + var(--np, 0) * 0.1)),
-    inset 0 -1.5px 0 rgba(255,255,255, calc(0.05 + var(--np, 0) * 0.02)),
-    inset 0 0 30px rgba(255,255,255, calc(var(--np, 0) * 0.04)),
-    0 calc(12px + var(--np, 0) * 4px) calc(40px + var(--np, 0) * 12px) rgba(0,0,0, calc(0.4 + var(--np, 0) * 0.1));
-  top: calc(1.2rem - var(--np, 0) * 0.2rem);
-  /* No transition needed - everything is driven by --np which JS updates smoothly */
+    inset 0 1.5px 0 rgba(255,255,255, calc(0.15 + var(--np) * 0.1)),
+    inset 0 -1.5px 0 rgba(255,255,255, calc(0.05 + var(--np) * 0.02)),
+    inset 0 0 30px rgba(255,255,255, calc(var(--np) * 0.04)),
+    0 calc(12px + var(--np) * 4px) calc(40px + var(--np) * 12px) rgba(0,0,0, calc(0.4 + var(--np) * 0.1));
   will-change: width, padding, gap;
 }
 .nav-logo { font-size: calc(0.8rem - var(--np, 0) * 0.08rem); letter-spacing: calc(5px - var(--np, 0) * 1.5px); }
@@ -348,11 +348,9 @@ nav {
   transform: translateY(-50%);
   width: 1px; height: 20px;
   background: linear-gradient(180deg, transparent, var(--w20), transparent);
-  opacity: 0;
-  transition: opacity .5s;
+  opacity: var(--np, 0);
+  transition: opacity .3s;
 }
-nav.s .nav-right::before { opacity: 1; }
-nav.s .nav-right { gap: 1.5rem; }
 .nav-time {
   font-size: .62rem;
   letter-spacing: 2px;
